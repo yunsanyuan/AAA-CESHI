@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  collect:
+    name: Collect HTTP tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+      - name: Install
+        run: pip install -r requirements.txt
+      - name: Collect-only
+        run: python -m pytest --collect-only
+        # Live 花间集 is not started here. Execute locally:
+        # clone yunsanyuan/sanyuan, runserver, then pytest in this repo.
